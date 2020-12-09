@@ -89,7 +89,12 @@ class Circle {
 		this.filter = new p5.LowPass();
 
 		// START - quantise frequency to C major scale
-		this.rawFreq = map(this.x, 0, windowWidth, 120, 530);
+		this.pitchAxis = windowWidth > windowHeight ? windowWidth : windowHeight;
+		this.pitchAxisValue = windowWidth > windowHeight ? this.x : this.y;
+		this.rawFreq = map(this.pitchAxisValue, 0, this.pitchAxis, 120, 530);
+		if (this.pitchAxis === windowHeight) {
+			this.rawFreq = abs(windowHeight - this.rawFreq);
+		}
 		this.freq = quantise(this.rawFreq);
 		// END - quantise frequency to C major scale
 
