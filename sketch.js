@@ -9,7 +9,7 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 	circles = [];
 	sessionStarted = false;
-	instruction = isMobile() ? "Click" : "Tap";
+	instruction = isMobile() ? "Tap" : "Click";
 }
 
 function draw() {
