@@ -15,19 +15,19 @@ function draw() {
 	noFill();
 	stroke(200);
 	if (sessionStarted) {
-		// Blank screen ready for drawing circles
+		// Start with blank screen then display circles as they are drawn
 		strokeWeight(2);
 		circles.forEach(function(item) {
 			item.display();
 		})
 	} else {
-		// Welcome text
+		// Display welcome text and instructions
 		fill(200);
 		textSize(width / 50);
 		textAlign(CENTER, CENTER);
 		textFont("Comfortaa")
-		text("INSTRUCTIONS:\nClick and drag to draw circles", width/2, height*(1/3));
-		text("Click anywhere to start",  width/2, height*(2/3));
+		text("INSTRUCTIONS:\nClick and drag to draw circles", width / 2, height * (1 / 3));
+		text("Click anywhere to start",  width / 2, height * (2 / 3));
 	}
 }
 
@@ -37,14 +37,14 @@ function mousePressed() {
 		let c = new Circle(mouseX, mouseY);
 		circles.push(c);
 		currentCircle = c;
-		// Remove oldest circle
 		if (circles.length > MAX_CIRCLES) {
+			// Remove oldest circle
 			let oldC = circles.shift();
 			oldC.osc.amp(0, 2.0);
 			oldC.osc.stop(2.0);
 		}
 	} else {
-		// First click of the game will go here
+		// This will be the first click of the session
 		sessionStarted = true;
 	}
 }
@@ -64,7 +64,7 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
-	// Don't start the oscillator playing until the mouse is released
+	// Don't start oscillator playing until mouse is released
 	if (sessionStarted && circles.length  > 0) {
 		// Circle must have been created first, by dragging
 		if (currentCircle.created) {
@@ -85,25 +85,16 @@ class Circle {
 		this.playing = false;
 		this.expanding = false;
 		this.maxCutoff = 500;
-		// Audio stuff
 		this.filter = new p5.LowPass();
-
-		// START - quantise frequency to C major scale
 		this.pitchAxis = windowWidth > windowHeight ? windowWidth : windowHeight;
 		this.pitchAxisValue = windowWidth > windowHeight ? this.x : this.y;
 		this.rawFreq = map(this.pitchAxisValue, 0, this.pitchAxis, 120, 530);
+		
 		if (this.pitchAxis === windowHeight) {
 			this.rawFreq = abs(windowHeight - this.rawFreq);
 		}
+
 		this.freq = quantise(this.rawFreq);
-		// END - quantise frequency to C major scale
-
-		// START - quantise frequency to chromatic scale
-		// this.rawFreq = map(this.x, 0, windowWidth, 100, 1000);
-		// this.midi = freqToMidi(this.rawFreq);
-		// this.freq = midiToFreq(this.midi);
-		// END - quantise frequency to chromatic scale
-
 		this.osc = new p5.Oscillator(this.freq, 'sawtooth');
 		this.osc.disconnect();
 		this.osc.connect(this.filter);
@@ -135,7 +126,7 @@ class Circle {
 	display() {
 		ellipse(this.x, this.y, this.diameter, this.diameter);
 		if (this.playing) {
-			this.osc.amp(0.1, 0.5);
+			this.osc.amp(0.3, 0.5);
 			this.oscillate();
 		}
 	}
