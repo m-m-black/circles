@@ -26,8 +26,8 @@ function draw() {
 		textSize(width / 50);
 		textAlign(CENTER, CENTER);
 		textFont("Comfortaa")
-		text("INSTRUCTIONS:\nClick and drag to draw circles", width / 2, height * (1 / 3));
-		text("Click anywhere to start",  width / 2, height * (2 / 3));
+		text("HOW TO PLAY:\n1. Turn your sound on\n2. Click and drag to draw circles", width / 2, height * (1 / 3));
+		text("Click anywhere to start...",  width / 2, height * (2 / 3));
 	}
 }
 
