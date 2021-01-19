@@ -22,6 +22,7 @@ function draw() {
 		})
 	} else {
 		// Display welcome text and instructions
+		noStroke();
 		fill(200);
 		textSize(width / 50);
 		textAlign(CENTER, CENTER);
